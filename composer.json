@@ -64,6 +64,24 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "lint": [
+            "vendor/bin/php-cs-fixer fix"
+        ],
+        "test": [
+            "php bin/phpunit"
+        ],
+        "refactor": [
+            "vendor/bin/rector"
+        ],
+        "analyse": [
+            "vendor/bin/phpstan analyse"
+        ],
+        "ci": [
+            "@refactor",
+            "@lint",
+            "@analyse",
+            "@test"
         ]
     },
     "conflict": {
