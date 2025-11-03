@@ -4,42 +4,36 @@ declare(strict_types=1);
 
 namespace App\User\Infrastructure\Doctrine\Repository;
 
-use App\User\Infrastructure\Doctrine\User;
+use App\User\Domain\Entity\User as DomainUser;
+use App\User\Domain\Repository\UserRepositoryInterface;
+use App\User\Infrastructure\Doctrine\Entity\User;
+use App\User\Infrastructure\Mapper\UserMapper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @extends ServiceEntityRepository<User>
  */
-class UserRepository extends ServiceEntityRepository
+class UserRepository extends ServiceEntityRepository implements UserRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry $registry,
+        private EntityManagerInterface $em,
+        private UserMapper $userMapper
+    )
     {
         parent::__construct($registry, User::class);
     }
 
-    //    /**
-    //     * @return User[] Returns an array of User objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function save(DomainUser $user): DomainUser
+    {
+        $user = $this->userMapper->toDoctrineEntity($user);
+        
+        $this->em->persist($user);
 
-    //    public function findOneBySomeField($value): ?User
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $this->em->flush();
+
+        return $this->userMapper->toDomainEntity($user);
+    }
 }

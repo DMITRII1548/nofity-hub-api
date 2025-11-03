@@ -21,8 +21,8 @@ doctrine:
             User:
                 is_bundle: false
                 type: attribute
-                dir: '%kernel.project_dir%/src/User/Infrastructure/Doctrine'
-                prefix: 'App\User\Infrastructure\Doctrine'
+                dir: '%kernel.project_dir%/src/User/Infrastructure/Doctrine/Entity'
+                prefix: 'App\User\Infrastructure\Doctrine\Entity'
                 alias: User
         controller_resolver:
             auto_mapping: false

@@ -1,2 +1,11 @@
-api_login_check:
-    path: /api/login_check
+controllers:
+    resource:
+        path: ../src/User/Presentation/Controller/
+        namespace: App\User\Presentation\Controller
+    type: attribute
+
+
+api_auth_login:
+    path: /api/auth/login
+    methods: [POST]
+

@@ -10,3 +10,4 @@ parameters:
 
     ignoreErrors:
         - '#Call to function method_exists\(\) with ''Symfony\\\\Component\\\\Dotenv\\\\Dotenv'' and ''bootEnv'' will always evaluate to true#'
+        - '#Property .*::\$id \(int\|null\) is never assigned int#'
